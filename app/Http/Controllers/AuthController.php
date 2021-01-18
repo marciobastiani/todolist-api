@@ -6,6 +6,7 @@ use App\Services\AuthService;
 use App\Http\Requests\AuthLoginRequest;
 use App\Http\Requests\AuthRegisterRequest;
 use App\Http\Requests\AuthVerifyEmailRequest;
+use App\Http\Requests\AuthForgotPasswordRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
@@ -41,5 +42,12 @@ class AuthController extends Controller
         $user = $this->authservice->verifyEmail($input['token']);
         
         return new UserResource($user);
+    }
+
+    public function forgotPassword(AuthForgotPasswordRequest $request) {
+        
+        $input = $request->validated();
+
+        return $this->authservice->forgotPassword($input['email']);
     }
 }
