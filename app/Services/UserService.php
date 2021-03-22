@@ -10,7 +10,8 @@ class UserService
 {
     public function update(User $user, array $input) {
         
-        if (!empty($input['email']) && User::where('email', $input['email'])->exists()) {
+        if (!empty($input['email']) &&
+            User::where('email', $input['email'])->where('id', '<>', $user->id)->exists()) {
             throw new UserHasBeenTakenException();
         }
 
