@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\TodoResource;
 use App\Http\Requests\TodoStoreRequest;
+use App\Http\Requests\TodoUpdateRequest;
+use App\Todo;
 
 class TodoController extends Controller
 {
@@ -23,5 +25,14 @@ class TodoController extends Controller
         $todo = auth()->user()->todos()->create($input);
 
         return new TodoResource($todo);
+    }
+
+    public function update(Todo $todo, TodoUpdateRequest $request) {
+        $input = $request->validated();
+
+        $todo->fill($input);
+        $todo->save();
+
+        return new TodoResource($todo->fresh());
     }
 }
